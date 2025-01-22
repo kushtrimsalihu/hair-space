@@ -1,5 +1,11 @@
 import '../css/app.css';
 import './bootstrap';
+import 'primeicons/primeicons.css';
+import PrimeVue from 'primevue/config';
+import Lara from '@primevue/themes/lara';
+import StyleClass from 'primevue/styleclass';
+import Ripple from 'primevue/ripple';
+
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -19,9 +25,21 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(PrimeVue, {
+                theme: {
+                    preset: Lara,
+                    options: {
+                        prefix: 'p',
+                        darkModeSelector: 'system',
+                        cssLayer: false
+                    }
+                }
+            })
+            .directive('styleclass', StyleClass)
+            .directive('ripple', Ripple)
             .mount(el);
     },
     progress: {
-        color: '#4B5563',
+        color: '#34d399',
     },
 });
