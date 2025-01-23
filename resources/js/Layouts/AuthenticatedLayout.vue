@@ -1,22 +1,21 @@
 <template>
-  <MainMenu class="pt-4 px-4 float-right h-4" />
-  <div class="flex flex-col md:flex-row w-full sm:justify-between md:overflow-hidden">
-    <div class="sm:w-64 md:flex-shrink-0">
-    </div>
-      <div class="px-4 p-8 md:flex-1 flex-shrink md:overflow-y-auto">
+  <div class="relative w-full h-full">
+    <aside class="m-4 lg:flex-shrink-0 absolute right-0 top-0">
+      <MainMenu />
+    </aside>
+
+    <main class="flex-1 px-4 py-8 ml-0 lg:ml-80">
       <slot />
-    </div>
+    </main>
   </div>
 </template>
 
 <script>
 import MainMenu from "@/Shared/MainMenu.vue";
-import Button from "primevue/button";
 
 export default {
   components: {
     MainMenu,
-    Button
   },
   props: {
     auth: Object,
@@ -25,5 +24,5 @@ export default {
 </script>
 
 <style scoped>
-/* Add necessary styles here */
+/* Add custom styles if needed */
 </style>
