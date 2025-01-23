@@ -1,13 +1,11 @@
 <template>
-    <div class="card flex justify-right">
+    <div class="card flex">
         <Drawer v-model:visible="visible" :modal="false" :dismissable="false" class="!w-68">
-
             <template #container="{ closeCallback }">
                 <div class="flex flex-col h-full">
                     <div class="flex items-center justify-between px-6 pt-4 shrink-0">
                         <span class="inline-flex items-center gap-2">
-                            <svg width="35" height="40" viewBox="0 0 35 40" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg width="35" height="40" viewBox="0 0 35 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M25.87 18.05L23.16 17.45L25.27 20.46V29.78L32.49 23.76V13.53L29.18 14.73L25.87 18.04V18.05ZM25.27 35.49L29.18 31.58V27.67L25.27 30.98V35.49ZM20.16 17.14H20.03H20.17H20.16ZM30.1 5.19L34.89 4.81L33.08 12.33L24.1 15.67L30.08 5.2L30.1 5.19ZM5.72 14.74L2.41 13.54V23.77L9.63 29.79V20.47L11.74 17.46L9.03 18.06L5.72 14.75V14.74ZM9.63 30.98L5.72 27.67V31.58L9.63 35.49V30.98ZM4.8 5.2L10.78 15.67L1.81 12.33L0 4.81L4.79 5.19L4.8 5.2ZM24.37 21.05V34.59L22.56 37.29L20.46 39.4H14.44L12.34 37.29L10.53 34.59V21.05L12.42 18.23L17.45 26.8L22.48 18.23L24.37 21.05ZM22.85 0L22.57 0.69L17.45 13.08L12.33 0.69L12.05 0H22.85Z"
                                     fill="var(--p-primary-color)" />
@@ -17,11 +15,12 @@
                             </svg>
                             <span class="font-semibold text-2xl text-primary">Hair Space</span>
                         </span>
-                        <span class="block">
+                        <span class="block lg:hidden">
                             <Button type="button" @click="closeCallback" icon="pi pi-times" rounded outlined></Button>
                         </span>
                     </div>
-                    <div class="overflow-y-auto">
+
+                                     <div class="overflow-y-auto">
                         <ul class="list-none p-4 m-0">
                             <li>
                                 <div v-ripple v-styleclass="{
@@ -187,12 +186,12 @@
                         <span class="font-bold text-white">{{ $page.props.auth.user.name }}</span>
                         </Link>
                         <Link class="block px-6 py-2 w-full text-left hover:text-white hover:bg-indigo-500"
-                            href="/logout" method="post" as="button">Logout</Link>
+                            :href="route('logout')" method="post" as="button">Logout</Link>
                     </div>
                 </div>
             </template>
         </Drawer>
-        <div v-if="!visible" class="inline">
+        <div v-if="!visible" class="inline lg:hidden">
             <Button icon="pi pi-bars" @click="visible = true" />
         </div>
     </div>
@@ -200,10 +199,9 @@
 
 <script>
 import { Link } from "@inertiajs/vue3";
-import Icon from "@/Shared/Icon.vue";
-import Drawer from 'primevue/drawer';
-import Button from 'primevue/button';
-import Avatar from 'primevue/avatar';
+import Drawer from "primevue/drawer";
+import Button from "primevue/button";
+import Avatar from "primevue/avatar";
 
 export default {
     components: {
@@ -211,16 +209,28 @@ export default {
         Drawer,
         Button,
         Avatar,
-        Icon,
     },
     data() {
         return {
-            visible: true
-        }
-    }
+            visible: true,
+        };
+    },
+    mounted() {
+        this.checkTabletView();
+        window.addEventListener("resize", this.checkTabletView);
+    },
+    beforeUnmount() {
+        window.removeEventListener("resize", this.checkTabletView); 
+    },
+    methods: {
+        checkTabletView() {
+            const isTablet = window.matchMedia("(max-width: 1023px)").matches;
+            this.visible = !isTablet;
+        },
+    },
 };
 </script>
 
 <style scoped>
-/* Add styles if necessary */
+/* Add any custom styles if necessary */
 </style>
