@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Appointment;
 
 class User extends Authenticatable
 {
@@ -44,5 +45,34 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+    
+    public function isHeadBarber()
+    {
+        return $this->role === 'head_barber';
+    }
+
+    public function isBarber()
+    {
+        return $this->role === 'barber';
+    }
+
+    public function isClient()
+    {
+        return $this->role === 'client';
+    }
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'user_id');
+    }
+
+    public function barbers()
+    {
+        return $this->hasMany(Appointment::class, 'barber_id');
     }
 }

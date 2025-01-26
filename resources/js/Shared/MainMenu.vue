@@ -213,19 +213,28 @@ export default {
     data() {
         return {
             visible: true,
+            isTablet: false,
         };
     },
     mounted() {
         this.checkTabletView();
         window.addEventListener("resize", this.checkTabletView);
+        document.addEventListener("keydown", this.handleEscape, true);
     },
     beforeUnmount() {
         window.removeEventListener("resize", this.checkTabletView); 
+        document.addEventListener("keydown", this.handleEscape, true);
     },
     methods: {
         checkTabletView() {
             const isTablet = window.matchMedia("(max-width: 1023px)").matches;
             this.visible = !isTablet;
+        },
+        handleEscape(event) {
+            if (event.key === "Escape" && !this.isTablet) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
         },
     },
 };
